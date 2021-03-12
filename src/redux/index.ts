@@ -5,7 +5,7 @@ import thunk from "redux-thunk";
 
 /* Reducers */
 
-import loginReducer from "./reducers/login.reducer";
+import loginReducer, {LoginState as _LoginState} from "./reducers/login.reducer";
 
 const rootReducer = combineReducers({
 	login: loginReducer
@@ -17,10 +17,13 @@ export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 /* Actions */
 
 export {
+	LoginActionTypes,
 	open as loginOpenAction, 
 	close as loginCloseAction, 
-	trigger as loginTriggerAction
+	trigger as loginTriggerAction,
+	busy as loginBusyAction,
 } from "./reducers/login.reducer";
+export type LoginState = _LoginState;
 
 /* Store */
 

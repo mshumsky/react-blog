@@ -5,12 +5,14 @@ import {cloneObject, isValid} from "../../utils/index";
 
 export interface LoginState {
 	open: boolean;
+	busy: boolean;
 };
 
 export enum LoginActionTypes {
 	open = "LOGIN_OPEN",
 	close = "LOGIN_CLOSE",
-	trigger = "LOGIN_TRIGGER"
+	trigger = "LOGIN_TRIGGER",
+	busy = "LOGIN_BUSY"
 };
 
 export interface LoginOpenAction {
@@ -26,22 +28,30 @@ export interface LoginTriggerAction {
 	payload?: boolean;
 };
 
-export type LoginAction = LoginOpenAction | LoginCloseAction | LoginTriggerAction;
+export interface LoginBusyAction {
+	type: LoginActionTypes.busy;
+	payload: boolean;
+}
+
+export type LoginAction = LoginOpenAction | LoginCloseAction | LoginTriggerAction | LoginBusyAction;
 
 /* Reducer */
 
 const initState: LoginState = {
-	open: false
+	open: false,
+	busy: false
 };
 
 export default (state = initState, action: LoginAction): LoginState => {
 	switch (action.type) {
 		case LoginActionTypes.open:
-			return {...cloneObject(state), open: true};
+			return {...state, open: true};
 		case LoginActionTypes.close:
-			return {...cloneObject(state), open: false};
+			return {...state, open: false};
 		case LoginActionTypes.trigger:
-			return {...cloneObject(state), open: action.payload ? action.payload : !state.open};
+			return {...state, open: action.payload ? action.payload : !state.open};
+		case LoginActionTypes.busy: 
+			return {...state, busy: action.payload};
 		default:
 			return state;
 	}
@@ -62,4 +72,9 @@ export const close = () =>
 export const trigger = (payload?: boolean) =>
 	async (dispatch: Dispatch<LoginTriggerAction>) => {
 		dispatch({type: LoginActionTypes.trigger, ...isValid(payload) && {payload}});
+	};
+
+export const busy = (payload: boolean) => 
+	async (dispatch: Dispatch<LoginBusyAction>) => {
+		dispatch({type: LoginActionTypes.busy, payload});
 	};
