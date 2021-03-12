@@ -1,26 +1,24 @@
-import React from "react";
-
-import {BrowserRouter, Switch, Route} from "react-router-dom";
-
-import "./styles.scss";
-
-import Welcome from "./components/welcome";
+import React, {Fragment} from "react";
+import {Route, Switch} from "react-router-dom";
 import LoginModal from "./components/login.modal";
+import Welcome from "./components/welcome";
+import "./styles.scss";
 
 function App() {
 
+	
 	const globalComp = [
-		<LoginModal/>
+		<LoginModal key={0} />
 	];
 
-  return (
-		<BrowserRouter>
+	return (
+		<Fragment>
 			{globalComp}
 			<Switch>
-				<Route path="/" component={Welcome}/>
+				<Route path="/" component={Welcome} />
 			</Switch>
-		</BrowserRouter>
-  );
+		</Fragment>
+	);
 }
 
 export default App;

@@ -1,7 +1,7 @@
 import React, {FC} from "react";
 
-import {useSelector, useDispatch} from "react-redux";
-import {LoginActionTypes} from "../redux/index";
+import {useDispatch} from "react-redux";
+import {loginOpenAction} from "../redux";
 
 const Welcome: FC<any> = () => {
 	const dispatch = useDispatch();
@@ -9,9 +9,7 @@ const Welcome: FC<any> = () => {
 		<div>
 			<p>Главная страница</p>
 			<button onClick={() => {
-				dispatch({
-					type: LoginActionTypes.open
-				});
+				dispatch(loginOpenAction());
 			}}>Авторизоваться</button>
 		</div>
 	)

@@ -5,9 +5,11 @@ import thunk from "redux-thunk";
 
 /* Reducers */
 
+import userReducer, {UserState as _UserState} from "./reducers/user.reducer";
 import loginReducer, {LoginState as _LoginState} from "./reducers/login.reducer";
 
 const rootReducer = combineReducers({
+	user: userReducer,
 	login: loginReducer
 });
 
@@ -22,8 +24,18 @@ export {
 	close as loginCloseAction, 
 	trigger as loginTriggerAction,
 	busy as loginBusyAction,
+	pending as loginPendingAction,
+	request as loginRequestAction
 } from "./reducers/login.reducer";
 export type LoginState = _LoginState;
+
+export {
+	UserActionTypes,
+	changeLogged as userChangeLoggedAction,
+	replaceProfile as userReplaceProfileAction,
+	replaceData as userReplaceDataAction
+} from "./reducers/user.reducer";
+export type UserState = _UserState;
 
 /* Store */
 
