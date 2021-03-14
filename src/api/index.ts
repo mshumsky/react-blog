@@ -1,4 +1,4 @@
-import axios, {AxiosInstance} from "axios";
+import axios, {AxiosInstance, Method} from "axios";
 
 const instance: AxiosInstance = axios.create({
 	baseURL: process.env.REACT_APP_API_URI
@@ -6,7 +6,7 @@ const instance: AxiosInstance = axios.create({
 
 export interface IMakeRequestArg {
 	url: string;
-	method: "get" | "post";
+	method: Method;
 	params?: any;
 	data?: any;
 	headers?: any;
