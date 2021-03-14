@@ -75,9 +75,7 @@ export default (state = initState, action: LoginAction): LoginState => {
 
 export const open = () =>
 	async (dispatch: Dispatch<LoginOpenAction | LoginPendingAction>) => {
-		console.log("DA");
 		const pendingRequest = restoreOtpRequest();
-		console.log(pendingRequest);
 		pendingRequest !== null && (
 			await pending(pendingRequest)(dispatch)
 		);

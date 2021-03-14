@@ -12,3 +12,17 @@ export const requestRegisterCode = (phone_number: string): Promise<AxiosResponse
 	headers: {"Content-Type": "application/json"},
 	data: {phone_number}
 });
+
+export interface validateRegisterCodeResponse {
+	id: number;
+	last_login: any;
+	status: number;
+	token: string;
+}
+
+export const validateRegisterCode = (pk: number, otp: string): Promise<AxiosResponse<validateRegisterCodeResponse>> => makeRequest({
+	url: "v1/phone_login/validate/",
+	method: "post",
+	headers: {"Content-Type": "application/json"},
+	data: {pk, otp}
+});

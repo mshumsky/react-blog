@@ -1,0 +1,14 @@
+.sideMenu-Drawer {
+	width: 240px;
+	flex-shrink: 0;
+	white-space: nowrap;
+}
+
+.sideMenu-Open {
+	width: 240px;
+}
+
+.sideMenu-Closed {
+	overflow-x: hidden;
+	width: 40px;
+}

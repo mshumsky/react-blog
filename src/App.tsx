@@ -4,20 +4,23 @@ import LoginModal from "./components/login.modal";
 import Welcome from "./components/welcome";
 import "./styles.scss";
 
-function App() {
+import SideMenu from "./components/sidemenu";
 
-	
+function App() {
 	const globalComp = [
-		<LoginModal key={0} />
+		<LoginModal key={0} />,
+		<SideMenu key={1} />
 	];
 
 	return (
-		<Fragment>
+		<div className="app">
 			{globalComp}
-			<Switch>
-				<Route path="/" component={Welcome} />
-			</Switch>
-		</Fragment>
+			<main>
+				<Switch>
+					<Route path="/" component={Welcome} />
+				</Switch>
+			</main>
+		</div>
 	);
 }
 

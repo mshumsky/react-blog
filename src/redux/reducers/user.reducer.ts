@@ -1,5 +1,4 @@
 import {Dispatch} from "redux";
-import {isValid} from "../../utils/index";
 
 /* Types */
 
@@ -8,13 +7,14 @@ export interface UserProfile {
 }
 
 export interface UserData {
-	[key: string]: any;
+	id: number;
+	token: string;
 }
 
 export interface UserState {
 	logged: boolean;
 	profile: UserProfile;
-	data: UserData;
+	data: UserData | {};
 }
 
 export enum UserActionTypes {

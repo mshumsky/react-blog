@@ -1,7 +1,8 @@
 import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField} from "@material-ui/core";
 import React, {ChangeEvent, FC, useState} from "react";
 import {useDispatch} from "react-redux";
-import {loginCloseAction, loginPendingAction, useTypedSelector} from "../redux";
+import {loginCloseAction, loginPendingAction, useTypedSelector, loginBusyAction} from "../redux";
+import {RequestRegisterCodeResponse, validateRegisterCode} from "../api/index";
 
 const LoginConfirm: FC<any> = () => {
 	const store = useTypedSelector(store => store.login);
@@ -20,7 +21,20 @@ const LoginConfirm: FC<any> = () => {
 	};
 
 	const handleSubmit = () => {
-		console.log("SUBMITTED");
+		const validate = async () => {
+			await dispatch(loginBusyAction(true));
+			try {
+				const pending = store.pending as RequestRegisterCodeResponse;
+				const resp = await validateRegisterCode(pending.pk, code);
+				console.log(resp.data);
+				
+			} catch (err) {
+
+			} finally {
+				await dispatch(loginBusyAction(false));
+			}
+		};
+		validate();
 	}
 
 	const open = store.open && store.pending !== false;

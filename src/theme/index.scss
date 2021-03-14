@@ -1,2 +1,8 @@
 @import "theme/variables.scss";
 @import "theme/normalize.css";
+
+@import "theme/components/sidemenu.scss";
+
+.app {
+	display: flex;
+}

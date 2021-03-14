@@ -7,10 +7,12 @@ import thunk from "redux-thunk";
 
 import userReducer, {UserState as _UserState} from "./reducers/user.reducer";
 import loginReducer, {LoginState as _LoginState} from "./reducers/login.reducer";
+import sidemenuReducer, {SidemenuState as _SidemenuState} from "./reducers/sidemenu.reducer";
 
 const rootReducer = combineReducers({
 	user: userReducer,
-	login: loginReducer
+	login: loginReducer,
+	sidemenu: sidemenuReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
@@ -36,6 +38,13 @@ export {
 	replaceData as userReplaceDataAction
 } from "./reducers/user.reducer";
 export type UserState = _UserState;
+
+export {
+	SidemenuActionTypes,
+	open as sidemenuOpenAction,
+	close as sidemenuCloseAction
+} from "./reducers/sidemenu.reducer";
+export type SidemenuState = _SidemenuState;
 
 /* Store */
 
