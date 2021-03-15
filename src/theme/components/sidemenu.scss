@@ -12,28 +12,77 @@
 	overflow-x: hidden;
 	width: 56px;
 	transition: width $transition-timing-fast !important;
+	.MuiListItem-root.sideMenu-ListItem__Avatar {
+		.MuiAvatar-root {
+			width: 43px;
+			height: 43px;
+		}
+	}
+	.sideMenu-FullName {
+		visibility: hidden;
+	}
+	.sideMenu-ListItem.MuiListItem-gutters {
+		padding-left: 16px;
+	}
 }
 
-.MuiListItem-root.sideMenu-ListAvatar {
+.MuiListItem-root.sideMenu-ListItem__Avatar {
 	flex-direction: column;
 	justify-content: center;
+	padding-top: 87px;
+	padding-bottom: 76px;
+	.MuiAvatar-root {
+		width: 86px;
+		height: 86px;
+		transition: width $transition-timing-fast,
+								height $transition-timing-fast;
+	}
 }
 
-.MuiAvatar-root.sideMenu-ListAvatar__Avatar {
-	width: 86px;
-	height: 86px;
-}
-
-.sideMenu-ListAvatar__FullName {
-	margin-top: 10px;
+.sideMenu-FullName {
 	display: flex;
 	align-items: center;
+	& > .MuiTypography-root {
+		font-family: "TT Norms";
+		font-size: 18px;
+		line-height: 21px;
+		color: #0D1C2E;
+		font-weight: 600;
+		margin-right: 6px;
+	}
+	& > .MuiIconButton-root {
+		top: 1px;
+		color: #0D1C2E;
+	}
 }
 
-.sideMenu-ListAvatar__FullName__Name {
-	font-family: "TT Norms";
-	font-size: 18px;
-	line-height: 21px;
-	color: #0D1C2E;
-	margin-right: 6px;
+.sideMenu-ListItem {
+	height: 40px;
+	&.MuiButtonBase-root {
+		&:nth-child(n + 2) {
+			margin-bottom: 35px;
+		}
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+	&.MuiListItem-button:hover {
+		background-color: transparent;
+	}
+	&.MuiListItem-gutters {
+		padding-left: 35px;
+	}
+	.MuiListItemIcon-root{
+		min-width: 24px;
+		margin-right: 17px;
+		color: #707C97;
+	}
+	.MuiListItemText-primary {
+		font-family: "TT Norms";
+		font-size: 16px;
+		line-height: 19px;
+		font-weight: 600;
+		text-transform: uppercase;
+		color: #707C97;
+	}
 }

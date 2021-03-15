@@ -5,6 +5,8 @@ import {useDispatch} from "react-redux";
 import {sidemenuCloseAction, sidemenuOpenAction, useTypedSelector} from "../redux/index";
 import {useLogged} from "../services/index";
 
+import AssignmentIcon from '@material-ui/icons/Assignment';
+import ChatIcon from '@material-ui/icons/Chat';
 import SidemenuProfile from "./sidemenu.profile";
 
 import HomeIcon from '@material-ui/icons/Home';
@@ -41,11 +43,30 @@ const SideMenu: React.FC<any> = () => {
 		<Drawer variant="permanent" className={drawerClass} classes={{paper: paperClass}}>
 			<List>
 				<SidemenuProfile/>
-				<ListItem button onClick={onToggle}>
+				<ListItem className="sideMenu-ListItem" button onClick={onToggle}>
 					<ListItemIcon>
-						<HomeIcon/>
+						<AssignmentIcon/>
 					</ListItemIcon>
-					<ListItemText primary="Open" />
+					<ListItemText primary="Статьи" />
+				</ListItem>
+				<ListItem className="sideMenu-ListItem" button onClick={onToggle}>
+					<ListItemIcon>
+						<ChatIcon/>
+					</ListItemIcon>
+					<ListItemText primary="Чат"/>
+				</ListItem>
+				<ListItem className="sideMenu-ListItem" button onClick={onToggle}>
+					<ListItemIcon>
+						<ChatIcon/>
+					</ListItemIcon>
+					<ListItemText primary="Чат"/>
+				</ListItem>
+
+				<ListItem className="sideMenu-ListItem" button onClick={onToggle}>
+					<ListItemIcon>
+						<ChatIcon/>
+					</ListItemIcon>
+					<ListItemText primary="Чат"/>
 				</ListItem>
 			</List>
 		</Drawer>
