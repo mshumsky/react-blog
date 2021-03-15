@@ -1,6 +1,6 @@
 import {Dispatch} from "redux";
-import {RequestRegisterCodeResponse} from "../../api";
-import {restoreOtpRequest, storeOtpRequest} from "../../services";
+import {RequestRegisterCodeResponse} from "../../api/index";
+import {clearOtpRequest, isLogged, restoreOtpRequest, storeOtpRequest} from "../../services/index";
 import {isValid} from "../../utils/index";
 
 /* Types */
@@ -16,7 +16,6 @@ export interface LoginState {
 export enum LoginActionTypes {
 	open = "LOGIN_OPEN",
 	close = "LOGIN_CLOSE",
-	trigger = "LOGIN_TRIGGER",
 	busy = "LOGIN_BUSY",
 	pending = "LOGIN_PENDING"
 };
@@ -29,11 +28,6 @@ export interface LoginCloseAction {
 	type: LoginActionTypes.close;
 };
 
-export interface LoginTriggerAction {
-	type: LoginActionTypes.trigger;
-	payload?: boolean;
-};
-
 export interface LoginBusyAction {
 	type: LoginActionTypes.busy;
 	payload: boolean;
@@ -44,7 +38,7 @@ export interface LoginPendingAction {
 	payload: LoginPending;
 }
 
-export type LoginAction = LoginOpenAction | LoginCloseAction | LoginTriggerAction | LoginBusyAction | LoginPendingAction;
+export type LoginAction = LoginOpenAction | LoginCloseAction | LoginBusyAction | LoginPendingAction;
 
 /* Reducer */
 
@@ -60,8 +54,6 @@ export default (state = initState, action: LoginAction): LoginState => {
 			return {...state, open: true};
 		case LoginActionTypes.close:
 			return {...state, open: false};
-		case LoginActionTypes.trigger:
-			return {...state, open: action.payload ? action.payload : !state.open};
 		case LoginActionTypes.busy:
 			return {...state, busy: action.payload};
 		case LoginActionTypes.pending:
@@ -74,7 +66,11 @@ export default (state = initState, action: LoginAction): LoginState => {
 /* Action creator */
 
 export const open = () =>
-	async (dispatch: Dispatch<LoginOpenAction | LoginPendingAction>) => {
+	async (dispatch: Dispatch<LoginOpenAction | LoginPendingAction | LoginCloseAction>) => {
+		if (isLogged()) {
+			dispatch({type: LoginActionTypes.close});
+			return;
+		}
 		const pendingRequest = restoreOtpRequest();
 		pendingRequest !== null && (
 			await pending(pendingRequest)(dispatch)
@@ -87,23 +83,16 @@ export const close = () =>
 		dispatch({type: LoginActionTypes.close});
 	};
 
-export const trigger = (payload?: boolean) =>
-	async (dispatch: Dispatch<LoginTriggerAction>) => {
-		dispatch({type: LoginActionTypes.trigger, ...isValid(payload) && {payload}});
-	};
-
 export const busy = (payload: boolean) =>
 	async (dispatch: Dispatch<LoginBusyAction>) => {
 		dispatch({type: LoginActionTypes.busy, payload});
 	};
 
-export const request = (data: RequestRegisterCodeResponse) =>
-	async (dispatch: Dispatch) => {
-		storeOtpRequest(data);
-		await pending(data)(dispatch);
-	};
-
 export const pending = (payload: LoginPending) =>
 	async (dispatch: Dispatch<LoginPendingAction>) => {
+		if (payload !== false)
+			storeOtpRequest(payload);
+		else clearOtpRequest();
+
 		dispatch({type: LoginActionTypes.pending, payload});
 	};

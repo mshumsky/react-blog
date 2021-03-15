@@ -1,8 +1,9 @@
 import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField} from "@material-ui/core";
-import React, {ChangeEvent, FC, MouseEvent, useState, Fragment} from "react";
+import React, {ChangeEvent, FC, Fragment, MouseEvent, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {requestRegisterCode} from "../api/index";
-import {loginBusyAction, loginCloseAction, loginRequestAction, LoginState, RootState} from "../redux/index";
+import {loginBusyAction, loginCloseAction, loginPendingAction, LoginState, RootState} from "../redux/index";
+import {storeOtpRequest} from "../services";
 import LoginConfirm from "./login.confirm";
 
 const LoginModal: FC<any> = () => {
@@ -22,7 +23,7 @@ const LoginModal: FC<any> = () => {
 			await dispatch(loginBusyAction(true));
 			try {
 				const resp = await requestRegisterCode(phone);
-				await dispatch(loginRequestAction(resp.data));
+				await dispatch(loginPendingAction(resp.data));
 			} catch (err) {
 				console.error("Response: ", err.response);
 				console.error("Message: ", err.message);
@@ -53,7 +54,7 @@ const LoginModal: FC<any> = () => {
 					<button>Нет</button>
 				</DialogActions>
 			</Dialog>
-			<LoginConfirm/>
+			<LoginConfirm />
 		</Fragment>
 	);
 };

@@ -8,6 +8,7 @@ export interface UserProfile {
 
 export interface UserData {
 	id: number;
+	last_login: string | null;
 	token: string;
 }
 

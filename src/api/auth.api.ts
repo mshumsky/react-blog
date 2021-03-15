@@ -15,7 +15,7 @@ export const requestRegisterCode = (phone_number: string): Promise<AxiosResponse
 
 export interface validateRegisterCodeResponse {
 	id: number;
-	last_login: any;
+	last_login: string | null;
 	status: number;
 	token: string;
 }

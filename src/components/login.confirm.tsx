@@ -1,23 +1,24 @@
 import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField} from "@material-ui/core";
 import React, {ChangeEvent, FC, useState} from "react";
 import {useDispatch} from "react-redux";
-import {loginCloseAction, loginPendingAction, useTypedSelector, loginBusyAction} from "../redux";
 import {RequestRegisterCodeResponse, validateRegisterCode} from "../api/index";
+import {loginBusyAction, loginCloseAction, loginPendingAction, userChangeLoggedAction, userReplaceDataAction, useTypedSelector} from "../redux";
+import {clearOtpRequest, storeAuthData} from "../services/index";
 
 const LoginConfirm: FC<any> = () => {
 	const store = useTypedSelector(store => store.login);
 	const dispatch = useDispatch();
 
-	const handleClose = () =>
-		dispatch(loginCloseAction());
-
 	const [code, setCode] = useState("");
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
 		setCode(e.target.value);
 
+	const handleClose = () =>
+		dispatch(loginCloseAction());
 
 	const handleBack = () => {
 		dispatch(loginPendingAction(false));
+		clearOtpRequest();
 	};
 
 	const handleSubmit = () => {
@@ -26,16 +27,18 @@ const LoginConfirm: FC<any> = () => {
 			try {
 				const pending = store.pending as RequestRegisterCodeResponse;
 				const resp = await validateRegisterCode(pending.pk, code);
-				console.log(resp.data);
-				
+				storeAuthData(resp.data);
+				dispatch(userChangeLoggedAction(true));
+				handleClose();
 			} catch (err) {
-
+				console.error("Response: ", err.response);
+				console.error("Message: ", err.message);
 			} finally {
 				await dispatch(loginBusyAction(false));
 			}
 		};
 		validate();
-	}
+	};
 
 	const open = store.open && store.pending !== false;
 	return (

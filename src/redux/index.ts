@@ -23,11 +23,9 @@ export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 export {
 	LoginActionTypes,
 	open as loginOpenAction, 
-	close as loginCloseAction, 
-	trigger as loginTriggerAction,
+	close as loginCloseAction,
 	busy as loginBusyAction,
-	pending as loginPendingAction,
-	request as loginRequestAction
+	pending as loginPendingAction
 } from "./reducers/login.reducer";
 export type LoginState = _LoginState;
 
