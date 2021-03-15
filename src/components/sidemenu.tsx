@@ -55,7 +55,7 @@ const SideMenu: React.FC<any> = () => {
 					</ListItemIcon>
 					<ListItemText primary="Чат"/>
 				</ListItem>
-				<ListItem className="sideMenu-ListItem" button onClick={onToggle}>
+				<ListItem className="sideMenu-ListItem sideMenu-Active" button onClick={onToggle}>
 					<ListItemIcon>
 						<ChatIcon/>
 					</ListItemIcon>
