@@ -1,12 +1,20 @@
-import React from "react";
+import React, {useState} from "react";
 
 import {Avatar, ListItem, IconButton, Box, Typography} from "@material-ui/core";
 
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
+import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
+
+import SidemenuMenu from "./sidemenu.menu";
 
 const SidemenuProfile: React.FC = () => {
+	const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLButtonElement>(null);
 
+	const handleMenuOpen: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+		setMenuAnchorEl(e.currentTarget);
+	}
+
+	const handleMenuClose = () => setMenuAnchorEl(null);
 
 	return (
 		<ListItem className="sideMenu-ListItem__Avatar">
@@ -15,9 +23,14 @@ const SidemenuProfile: React.FC = () => {
 				<Typography component="span">
 					Henry Jabbawockiez
 				</Typography>
-				<IconButton size="small">
-					<KeyboardArrowDownIcon/>
+				<IconButton size="small" onClick={handleMenuOpen}>
+					{
+						Boolean(menuAnchorEl) === true ?
+							<KeyboardArrowUpIcon/> :
+							<KeyboardArrowDownIcon/>
+					}
 				</IconButton>
+				<SidemenuMenu anchorEl={menuAnchorEl} onClose={handleMenuClose}/>
 			</Box>
 		</ListItem>
 	);
