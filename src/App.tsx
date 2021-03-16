@@ -17,6 +17,15 @@ function App() {
 			{globalComp}
 			<main>
 				<Switch>
+					<Route path="/article">
+						<p>Article</p>
+					</Route>
+					<Route path="/chat">
+						<p>Chat</p>
+					</Route>
+					<Route path="/notification">
+						<p>Notification</p>
+					</Route>
 					<Route path="/" component={Welcome} />
 				</Switch>
 			</main>

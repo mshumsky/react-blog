@@ -5,11 +5,13 @@ import {useDispatch} from "react-redux";
 import {sidemenuCloseAction, sidemenuOpenAction, useTypedSelector} from "../redux/index";
 import {useLogged} from "../services/index";
 
+
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import ChatIcon from '@material-ui/icons/Chat';
 import SidemenuProfile from "./sidemenu.profile";
+import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
 
-import HomeIcon from '@material-ui/icons/Home';
+import SidemenuItem from "./sidemenu.item";
 
 const SideMenu: React.FC<any> = () => {
 	const store = useTypedSelector(store => store.sidemenu);
@@ -43,31 +45,24 @@ const SideMenu: React.FC<any> = () => {
 		<Drawer variant="permanent" className={drawerClass} classes={{paper: paperClass}}>
 			<List>
 				<SidemenuProfile/>
-				<ListItem className="sideMenu-ListItem" button onClick={onToggle}>
+				<SidemenuItem path="/article" className="sideMenu-ListItem" activeClassName="sideMenu-Active" button>
 					<ListItemIcon>
 						<AssignmentIcon/>
 					</ListItemIcon>
 					<ListItemText primary="Статьи" />
-				</ListItem>
-				<ListItem className="sideMenu-ListItem" button onClick={onToggle}>
+				</SidemenuItem>
+				<SidemenuItem path="/chat" className="sideMenu-ListItem" activeClassName="sideMenu-Active" button>
 					<ListItemIcon>
 						<ChatIcon/>
 					</ListItemIcon>
 					<ListItemText primary="Чат"/>
-				</ListItem>
-				<ListItem className="sideMenu-ListItem sideMenu-Active" button onClick={onToggle}>
+				</SidemenuItem>
+				<SidemenuItem path="/notification" className="sideMenu-ListItem" activeClassName="sideMenu-Active" button>
 					<ListItemIcon>
-						<ChatIcon/>
+						<NotificationsNoneIcon/>
 					</ListItemIcon>
-					<ListItemText primary="Чат"/>
-				</ListItem>
-
-				<ListItem className="sideMenu-ListItem" button onClick={onToggle}>
-					<ListItemIcon>
-						<ChatIcon/>
-					</ListItemIcon>
-					<ListItemText primary="Чат"/>
-				</ListItem>
+					<ListItemText primary="Уведомления"/>
+				</SidemenuItem>
 			</List>
 		</Drawer>
 	);

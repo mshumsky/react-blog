@@ -5,13 +5,16 @@
 
 .sideMenu-Open {
 	width: 290px;
-	transition: width $transition-timing-fast !important;
+	transition: width $transition-timing-fast,
+							box-shadow $transition-timing-fast !important;
+	box-shadow: 14.0351px 0px 25px rgba(86, 128, 248, 0.03), 35.0877px 0px 70px rgba(86, 128, 248, 0.05), 23.8596px 5.61404px 50px rgba(0, 0, 0, 0.02) !important;
 }
 
 .sideMenu-Closed {
 	overflow-x: hidden;
 	width: 56px;
-	transition: width $transition-timing-fast !important;
+	transition: width $transition-timing-fast,
+							box-shadow $transition-timing-fast !important;
 	.MuiListItem-root.sideMenu-ListItem__Avatar {
 		.MuiAvatar-root {
 			width: 43px;

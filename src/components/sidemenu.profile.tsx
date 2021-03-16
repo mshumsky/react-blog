@@ -5,8 +5,6 @@ import {Avatar, ListItem, IconButton, Box, Typography} from "@material-ui/core";
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 
-/* https://static.wikia.nocookie.net/discord-wikia/images/5/5e/Default.png/revision/latest?cb=20191215094354&path-prefix=ru */
-
 const SidemenuProfile: React.FC = () => {
 
 
