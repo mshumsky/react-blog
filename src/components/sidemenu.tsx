@@ -17,8 +17,10 @@ const SideMenu: React.FC<any> = () => {
 	const store = useTypedSelector(store => store.sidemenu);
 	const dispatch = useDispatch();
 
-	const logged: boolean = useLogged();
-	if (!logged) return null;
+	/*
+		const logged: boolean = useLogged();
+		if (!logged) return null;
+	*/
 
 	const onToggle = () => {
 		dispatch(

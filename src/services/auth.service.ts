@@ -1,7 +1,7 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {useDispatch} from "react-redux";
 import {RequestRegisterCodeResponse, validateRegisterCodeResponse} from "../api/index";
-import {store, userChangeLoggedAction, userReplaceDataAction} from "../redux/index";
+import {store, userChangeLoggedAction, userReplaceDataAction, useTypedSelector} from "../redux/index";
 import {stringifyMatch} from "../utils";
 
 /* Regular */
@@ -27,16 +27,11 @@ export const restoreOtpRequest = (): RequestRegisterCodeResponse | null => {
 /* Hooks */
 
 export const useLogged = (): boolean => {
-	const [logged, setLogged] = useState(isLogged());
-	const listener = () => {
-		const _logged = isLogged();
-		if (logged !== _logged)
-			setLogged(_logged);
-	};
+	const storeLogged = useTypedSelector(store => store.user.logged);
+	const [logged, setLogged] = useState(storeLogged);
 
-	useEffect(() => {
-		store.subscribe(listener);
-	}, []);
+	if (logged !== storeLogged)
+		setLogged(storeLogged);
 
 	const dispatch = useDispatch();
 

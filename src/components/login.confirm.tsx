@@ -29,6 +29,7 @@ const LoginConfirm: FC<any> = () => {
 				const resp = await validateRegisterCode(pending.pk, code);
 				storeAuthData(resp.data);
 				dispatch(userChangeLoggedAction(true));
+				clearOtpRequest();
 				handleClose();
 			} catch (err) {
 				console.error("Response: ", err.response);

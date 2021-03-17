@@ -1,4 +1,6 @@
 import {Dispatch} from "redux";
+import {loginPendingAction} from "..";
+import {clearAuthData, clearOtpRequest} from "../../services";
 
 /* Types */
 
@@ -6,11 +8,13 @@ export interface UserProfile {
 	[key: string]: any;
 }
 
-export interface UserData {
+export interface IUserData {
 	id: number;
 	last_login: string | null;
 	token: string;
 }
+
+export type UserData = IUserData | {};
 
 export interface UserState {
 	logged: boolean;
@@ -25,7 +29,7 @@ export enum UserActionTypes {
 }
 
 export interface UserChangeLoggedAction {
-	type: UserActionTypes.changeLogged,
+	type: UserActionTypes.changeLogged;
 	payload: boolean;
 }
 
@@ -77,4 +81,13 @@ export const replaceProfile = (profile: UserProfile) =>
 export const replaceData = (data: UserData) =>
 	async (dispatch: Dispatch<UserReplaceDataAction>) => {
 		dispatch({type: UserActionTypes.replaceData, payload: data});
+	};
+
+export const logout = () => 
+	async (dispatch: Dispatch<any>) => {
+		clearAuthData();
+		dispatch(changeLogged(false));
+		dispatch(replaceProfile({}));
+		dispatch(replaceData({}));
+		dispatch(loginPendingAction(false));
 	};

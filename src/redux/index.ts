@@ -33,7 +33,8 @@ export {
 	UserActionTypes,
 	changeLogged as userChangeLoggedAction,
 	replaceProfile as userReplaceProfileAction,
-	replaceData as userReplaceDataAction
+	replaceData as userReplaceDataAction,
+	logout as userLogoutAction
 } from "./reducers/user.reducer";
 export type UserState = _UserState;
 

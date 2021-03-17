@@ -109,3 +109,20 @@
 		border-radius: 3px;
 	}
 }
+
+.sideMenu-Menu {
+	top: 6px !important;
+	left: -16px !important;
+	z-index: 1;
+	.MuiPaper-root {
+		border-radius: 6px;
+		background: #FFF;
+		box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.1);
+	}
+	.MuiMenuItem-root {
+		font-family: "TT Norms";
+		font-size: 16px;
+		line-height: 19px;
+		color: #0D1C2E;
+	}
+}
