@@ -31,9 +31,7 @@ export type LoginState = _LoginState;
 
 export {
 	UserActionTypes,
-	changeLogged as userChangeLoggedAction,
-	replaceProfile as userReplaceProfileAction,
-	replaceData as userReplaceDataAction,
+	login as userLoginAction,
 	logout as userLogoutAction
 } from "./reducers/user.reducer";
 export type UserState = _UserState;

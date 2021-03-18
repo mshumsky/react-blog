@@ -1,66 +1,54 @@
 import {Dispatch} from "redux";
-import {loginPendingAction} from "..";
-import {clearAuthData, clearOtpRequest} from "../../services";
+import {clearAuthData, clearOtpRequest, storeAuthData} from "../../services";
 
 /* Types */
 
-export interface UserProfile {
-	[key: string]: any;
-}
-
-export interface IUserData {
+export interface UserData {
 	id: number;
 	last_login: string | null;
 	token: string;
 }
 
-export type UserData = IUserData | {};
+export type UserDataType = UserData | {};
 
 export interface UserState {
 	logged: boolean;
-	profile: UserProfile;
-	data: UserData | {};
+	data: UserDataType;
 }
 
 export enum UserActionTypes {
-	changeLogged = "USER_CHANGE_LOGGED",
-	replaceProfile = "USER_REPLACE_PROFILE",
-	replaceData = "USER_REPLACE_DATA"
+	login = "USER_LOGIN",
+	logout = "USER_LOGOUT"
 }
 
-export interface UserChangeLoggedAction {
-	type: UserActionTypes.changeLogged;
-	payload: boolean;
+export interface UserLoginAction {
+	type: UserActionTypes.login;
+	data: UserDataType;
 }
 
-export interface UserReplaceProfileAction {
-	type: UserActionTypes.replaceProfile;
-	payload: UserProfile;
+export interface UserLogoutAction {
+	type: UserActionTypes.logout;
 }
 
-export interface UserReplaceDataAction {
-	type: UserActionTypes.replaceData;
-	payload: UserData;
-}
-
-export type UserAction = UserChangeLoggedAction | UserReplaceProfileAction | UserReplaceDataAction;
+export type UserAction = UserLoginAction | UserLogoutAction;
 
 /* Reducer */
 
 const initState: UserState = {
 	logged: false,
-	profile: {},
 	data: {}
 };
 
 export default (state = initState, action: UserAction): UserState => {
 	switch (action.type) {
-		case UserActionTypes.changeLogged:
-			return {...state, logged: action.payload};
-		case UserActionTypes.replaceProfile:
-			return {...state, profile: action.payload};
-		case UserActionTypes.replaceData:
-			return {...state, data: action.payload};
+		case UserActionTypes.login:
+			return {
+				...state, 
+				logged: true,
+				data: action.data
+			};
+		case UserActionTypes.logout: 
+			return initState;
 		default:
 			return state;
 	}
@@ -68,26 +56,17 @@ export default (state = initState, action: UserAction): UserState => {
 
 /* Action creator */
 
-export const changeLogged = (value: boolean) =>
-	async (dispatch: Dispatch<UserChangeLoggedAction>) => {
-		dispatch({type: UserActionTypes.changeLogged, payload: value});
-	};
-
-export const replaceProfile = (profile: UserProfile) =>
-	async (dispatch: Dispatch<UserReplaceProfileAction>) => {
-		dispatch({type: UserActionTypes.replaceProfile, payload: profile});
-	};
-
-export const replaceData = (data: UserData) =>
-	async (dispatch: Dispatch<UserReplaceDataAction>) => {
-		dispatch({type: UserActionTypes.replaceData, payload: data});
-	};
+export const login = (data: UserData) => 
+	async (dispatch: Dispatch<UserLoginAction>) => {
+		clearOtpRequest();
+		storeAuthData(data);
+		dispatch({
+			type: UserActionTypes.login, data
+		});
+	}
 
 export const logout = () => 
-	async (dispatch: Dispatch<any>) => {
+	async (dispatch: Dispatch<UserLogoutAction>) => {
 		clearAuthData();
-		dispatch(changeLogged(false));
-		dispatch(replaceProfile({}));
-		dispatch(replaceData({}));
-		dispatch(loginPendingAction(false));
+		dispatch({type: UserActionTypes.logout});
 	};

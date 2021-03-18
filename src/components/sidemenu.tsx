@@ -33,38 +33,44 @@ const SideMenu: React.FC<any> = () => {
 	const open = store.open;
 
 	const drawerClass = clsx({
-		["sideMenu-Drawer"]: true,
-		["sideMenu-Open"]: !open,
-		["sideMenu-Closed"]: open
+		"sideMenu-Drawer": true,
+		"sideMenu-Open": open,
+		"sideMenu-Closed": !open
 	});
 
 	const paperClass = clsx({
-		["sideMenu-Open"]: !open,
-		["sideMenu-Closed"]: open
+		"sideMenu-Open": open,
+		"sideMenu-Closed": !open
 	});
 
 	return (
 		<Drawer variant="permanent" className={drawerClass} classes={{paper: paperClass}}>
 			<List>
 				<SidemenuProfile/>
-				<SidemenuItem path="/article" className="sideMenu-ListItem" activeClassName="sideMenu-Active" button>
+				<SidemenuItem path="/article" button>
 					<ListItemIcon>
 						<AssignmentIcon/>
 					</ListItemIcon>
 					<ListItemText primary="Статьи" />
 				</SidemenuItem>
-				<SidemenuItem path="/chat" className="sideMenu-ListItem" activeClassName="sideMenu-Active" button>
+				<SidemenuItem path="/chat" button>
 					<ListItemIcon>
 						<ChatIcon/>
 					</ListItemIcon>
 					<ListItemText primary="Чат"/>
 				</SidemenuItem>
-				<SidemenuItem path="/notification" className="sideMenu-ListItem" activeClassName="sideMenu-Active" button>
+				<SidemenuItem path="/notification" button>
 					<ListItemIcon>
 						<NotificationsNoneIcon/>
 					</ListItemIcon>
 					<ListItemText primary="Уведомления"/>
 				</SidemenuItem>
+				<SidemenuItem button onClick={onToggle}>
+					<ListItemIcon>
+						<NotificationsNoneIcon/>
+					</ListItemIcon>
+				</SidemenuItem>
+				
 			</List>
 		</Drawer>
 	);

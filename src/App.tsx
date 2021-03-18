@@ -1,10 +1,12 @@
-import React, {Fragment} from "react";
-import {Route, Switch} from "react-router-dom";
+import React from "react";
+import {Provider} from "react-redux";
+import {BrowserRouter, Route, Switch} from "react-router-dom";
 import LoginModal from "./components/login.modal";
+import SideMenu from "./components/sidemenu";
 import Welcome from "./components/welcome";
+import {store} from "./redux";
 import "./styles.scss";
 
-import SideMenu from "./components/sidemenu";
 
 function App() {
 	const globalComp = [
@@ -34,3 +36,12 @@ function App() {
 }
 
 export default App;
+
+export const AppContainer: React.FC = () =>
+	<React.StrictMode>
+		<BrowserRouter>
+			<Provider store={store}>
+				<App />
+			</Provider>
+		</BrowserRouter>
+	</React.StrictMode>;

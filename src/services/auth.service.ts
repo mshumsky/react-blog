@@ -1,14 +1,15 @@
 import {useState} from "react";
 import {useDispatch} from "react-redux";
-import {RequestRegisterCodeResponse, validateRegisterCodeResponse} from "../api/index";
-import {store, userChangeLoggedAction, userReplaceDataAction, useTypedSelector} from "../redux/index";
+import {RequestRegisterCodeResponse, validateRegisterCodeResponse} from "../api";
+import {store, userLoginAction, useTypedSelector} from "../redux";
+import {UserData} from "../redux/reducers/user.reducer";
 import {stringifyMatch} from "../utils";
 
 /* Regular */
 
 export const isLogged = (): boolean => Boolean(store.getState().user.logged);
 
-export const storeAuthData = (data: validateRegisterCodeResponse): void => localStorage.setItem("authData", JSON.stringify(data));
+export const storeAuthData = (data: UserData): void => localStorage.setItem("authData", JSON.stringify(data));
 export const clearAuthData = (): void => localStorage.removeItem("authData");
 export const restoreAuthData = (): validateRegisterCodeResponse | null => {
 	const data = localStorage.getItem("authData");
@@ -40,10 +41,8 @@ export const useLogged = (): boolean => {
 
 	const userStore = store.getState().user;
 
-	if (!stringifyMatch(userStore.data, authData)) {
-		dispatch(userReplaceDataAction(authData));
-		dispatch(userChangeLoggedAction(true));
-	}
+	if (!stringifyMatch(userStore.data, authData))
+		dispatch(userLoginAction(authData));
 
 	return logged;
 };

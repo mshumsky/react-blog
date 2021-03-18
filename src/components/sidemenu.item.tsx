@@ -4,20 +4,18 @@ import React from "react";
 
 export interface SidemenuItemProps extends ListItemProps{
 	path?: string;
-	activeClassName?: string;
 }
 
 const SidemenuItem: React.FC<SidemenuItemProps> = (props) => {
 	const match: boolean = Boolean(useRouteMatch(props.path ?? ""));
 	const history = useHistory();
 
-	const classes: Array<string> = props.className ? props.className.split(" ") : [];
+	const classes: Array<string> = props.className ? props.className.split(" ") : ["sideMenu-ListItem"];
 	match &&
-		classes.push(props.activeClassName ?? "");
+		classes.push("sideMenu-Active");
 	
 	const liProps = {...props};
 	delete liProps.path;
-	delete liProps.activeClassName;
 	liProps.className = classes.join(" ");
 
 	liProps.onClick = e => {

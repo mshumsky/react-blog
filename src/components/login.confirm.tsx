@@ -2,7 +2,7 @@ import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Te
 import React, {ChangeEvent, FC, useState} from "react";
 import {useDispatch} from "react-redux";
 import {RequestRegisterCodeResponse, validateRegisterCode} from "../api/index";
-import {loginBusyAction, loginCloseAction, loginPendingAction, userChangeLoggedAction, userReplaceDataAction, useTypedSelector} from "../redux";
+import {loginBusyAction, loginCloseAction, loginPendingAction, userLoginAction, useTypedSelector} from "../redux";
 import {clearOtpRequest, storeAuthData} from "../services/index";
 
 const LoginConfirm: FC<any> = () => {
@@ -27,8 +27,7 @@ const LoginConfirm: FC<any> = () => {
 			try {
 				const pending = store.pending as RequestRegisterCodeResponse;
 				const resp = await validateRegisterCode(pending.pk, code);
-				storeAuthData(resp.data);
-				dispatch(userChangeLoggedAction(true));
+				dispatch(userLoginAction(resp.data));
 				clearOtpRequest();
 				handleClose();
 			} catch (err) {
