@@ -13,13 +13,20 @@ export interface UserData {
 
 export type UserDataType = UserData | {};
 
+export interface ApiImage {
+	full_size: string;
+	medium_square_crop?: string;
+}
+
+export type ApiImageType = ApiImage | null;
+
 export interface UserProfile {
 	id: number;
 	id_str: string;
 	username: string;
 	first_name: string;
 	last_name: string;
-	avatar: any;
+	avatar: ApiImageType;
 	status_type: number;
 	status_type_str: string;
 	account_url: string;

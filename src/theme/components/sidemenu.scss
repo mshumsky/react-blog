@@ -46,16 +46,16 @@
 	display: flex;
 	align-items: center;
 	& > .MuiTypography-root {
-		font-family: "TT Norms";
+		font-family: $primary-font;
 		font-size: 18px;
 		line-height: 21px;
-		color: #0D1C2E;
+		color: $color-black;
 		font-weight: 600;
 		margin-right: 6px;
 	}
 	& > .MuiIconButton-root {
 		top: 1px;
-		color: #0D1C2E;
+		color: $color-black;
 	}
 }
 
@@ -78,15 +78,15 @@
 	.MuiListItemIcon-root{
 		min-width: 24px;
 		margin-right: 17px;
-		color: #707C97;
+		color: $color-grey;
 	}
 	.MuiListItemText-primary {
-		font-family: "TT Norms";
+		font-family: $primary-font;
 		font-size: 16px;
 		line-height: 19px;
 		font-weight: bold;
 		text-transform: uppercase;
-		color: #707C97;
+		color: $color-grey;
 	}
 }
 
@@ -95,7 +95,7 @@
 		fill: url("#paint0_linear");
 	}
 	.MuiListItemText-primary {
-		color: #2A8BF2;
+		color: $color-lightblue;
 	}
 	&::before {
 		content: "";
@@ -103,7 +103,7 @@
 		left: 0;
 		height: 100%;
 		width: 3px;
-		background: #2A8BF2;
+		background: $color-lightblue;
 		box-shadow: 1px 0px 10px rgba(42, 139, 242, 0.45), 0px 0px 10px rgba(42, 139, 242, 0.55), 4px 0px 25px rgba(42, 139, 242, 0.75);
 		border-radius: 3px;
 	}
@@ -119,9 +119,9 @@
 		box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.1);
 	}
 	.MuiMenuItem-root {
-		font-family: "TT Norms";
+		font-family: $primary-font;
 		font-size: 16px;
 		line-height: 19px;
-		color: #0D1C2E;
+		color: $color-black;
 	}
 }
