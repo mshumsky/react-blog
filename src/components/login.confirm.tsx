@@ -1,9 +1,9 @@
 import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField} from "@material-ui/core";
 import React, {ChangeEvent, FC, useState} from "react";
 import {useDispatch} from "react-redux";
-import {RequestRegisterCodeResponse, validateRegisterCode} from "../api/index";
-import {loginBusyAction, loginCloseAction, loginPendingAction, userLoginAction, useTypedSelector} from "../redux";
-import {clearOtpRequest, storeAuthData} from "../services/index";
+import {RequestRegisterCodeResponse, validateRegisterCode, requestMyProfile} from "../api/index";
+import {loginBusyAction, loginCloseAction, loginPendingAction, userLoginAction, userSetProfileAction, useTypedSelector} from "../redux";
+import {clearOtpRequest} from "../services/index";
 
 const LoginConfirm: FC<any> = () => {
 	const store = useTypedSelector(store => store.login);
@@ -26,8 +26,8 @@ const LoginConfirm: FC<any> = () => {
 			await dispatch(loginBusyAction(true));
 			try {
 				const pending = store.pending as RequestRegisterCodeResponse;
-				const resp = await validateRegisterCode(pending.pk, code);
-				dispatch(userLoginAction(resp.data));
+				const loginResp = await validateRegisterCode(pending.pk, code);
+				dispatch(userLoginAction(loginResp.data));
 				clearOtpRequest();
 				handleClose();
 			} catch (err) {

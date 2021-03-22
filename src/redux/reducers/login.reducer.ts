@@ -1,7 +1,6 @@
 import {Dispatch} from "redux";
 import {RequestRegisterCodeResponse} from "../../api/index";
 import {clearOtpRequest, isLogged, restoreOtpRequest, storeOtpRequest} from "../../services/index";
-import {isValid} from "../../utils/index";
 
 /* Types */
 

@@ -27,3 +27,4 @@ export default makeRequest;
 /* Re-export from modules */
 
 export * from "./auth.api";
+export * from "./accounts.api";

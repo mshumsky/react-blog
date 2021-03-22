@@ -1,5 +1,7 @@
 import {Dispatch} from "redux";
+import {requestMyProfile} from "../../api";
 import {clearAuthData, clearOtpRequest, storeAuthData} from "../../services";
+import {ProfileActionTypes, ProfileSetDataAction} from "./profile.reducer";
 
 /* Types */
 
@@ -11,32 +13,61 @@ export interface UserData {
 
 export type UserDataType = UserData | {};
 
+export interface UserProfile {
+	id: number;
+	id_str: string;
+	username: string;
+	first_name: string;
+	last_name: string;
+	avatar: any;
+	status_type: number;
+	status_type_str: string;
+	account_url: string;
+	background_color: string;
+	city: string;
+	phone_number: string;
+	workplace: string;
+	work_experience: string;
+	about: string;
+	set_avatar_url: string;
+}
+
+export type UserProfileType = UserProfile | {};
+
 export interface UserState {
 	logged: boolean;
 	data: UserDataType;
+	profile: UserProfileType;
 }
 
 export enum UserActionTypes {
 	login = "USER_LOGIN",
-	logout = "USER_LOGOUT"
+	logout = "USER_LOGOUT",
+	setProfile = "USER_SETPROFILE"
 }
 
 export interface UserLoginAction {
 	type: UserActionTypes.login;
-	data: UserDataType;
+	payload: UserDataType;
 }
 
 export interface UserLogoutAction {
 	type: UserActionTypes.logout;
 }
 
-export type UserAction = UserLoginAction | UserLogoutAction;
+export interface UserSetProfileAction {
+	type: UserActionTypes.setProfile,
+	payload: UserProfile;
+}
+
+export type UserAction = UserLoginAction | UserLogoutAction | UserSetProfileAction;
 
 /* Reducer */
 
 const initState: UserState = {
 	logged: false,
-	data: {}
+	data: {},
+	profile: {}
 };
 
 export default (state = initState, action: UserAction): UserState => {
@@ -45,10 +76,15 @@ export default (state = initState, action: UserAction): UserState => {
 			return {
 				...state, 
 				logged: true,
-				data: action.data
+				data: action.payload
 			};
 		case UserActionTypes.logout: 
 			return initState;
+		case UserActionTypes.setProfile:
+			return {
+				...state,
+				profile: action.payload
+			};
 		default:
 			return state;
 	}
@@ -57,16 +93,28 @@ export default (state = initState, action: UserAction): UserState => {
 /* Action creator */
 
 export const login = (data: UserData) => 
-	async (dispatch: Dispatch<UserLoginAction>) => {
+	async (dispatch: Dispatch<UserLoginAction | UserSetProfileAction | ProfileSetDataAction>) => {
 		clearOtpRequest();
 		storeAuthData(data);
-		dispatch({
-			type: UserActionTypes.login, data
-		});
+		try {
+			const resp = await requestMyProfile(data.token);
+			dispatch({type: UserActionTypes.login, payload: data});
+			dispatch({type: UserActionTypes.setProfile, payload: resp.data});
+			dispatch({type: ProfileActionTypes.setData, payload: resp.data});
+		} catch (err) {
+			console.error(err);
+		}
 	}
 
 export const logout = () => 
-	async (dispatch: Dispatch<UserLogoutAction>) => {
+	async (dispatch: Dispatch<UserLogoutAction | ProfileSetDataAction>) => {
 		clearAuthData();
 		dispatch({type: UserActionTypes.logout});
+		dispatch({type: ProfileActionTypes.setData, payload: {}});
+	};
+
+export const setProfile = (data: UserProfile) => 
+	async (dispatch: Dispatch<UserSetProfileAction | ProfileSetDataAction>) => {
+		dispatch({type: UserActionTypes.setProfile, payload: data});
+		dispatch({type: ProfileActionTypes.setData, payload: data});
 	};

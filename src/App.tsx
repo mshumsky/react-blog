@@ -7,6 +7,7 @@ import Welcome from "./components/welcome";
 import {store} from "./redux";
 import "./styles.scss";
 
+import Profile from "./components/profile";
 
 function App() {
 	const globalComp = [
@@ -28,6 +29,7 @@ function App() {
 					<Route path="/notification">
 						<p>Notification</p>
 					</Route>
+					<Route path="/profile" component={Profile}/>
 					<Route path="/" component={Welcome} />
 				</Switch>
 			</main>

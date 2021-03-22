@@ -47,6 +47,12 @@ const SideMenu: React.FC<any> = () => {
 		<Drawer variant="permanent" className={drawerClass} classes={{paper: paperClass}}>
 			<List>
 				<SidemenuProfile/>
+				<SidemenuItem path="/profile" button>
+					<ListItemIcon>
+						<AssignmentIcon/>
+					</ListItemIcon>
+					<ListItemText primary="Профиль" />
+				</SidemenuItem>
 				<SidemenuItem path="/article" button>
 					<ListItemIcon>
 						<AssignmentIcon/>

@@ -8,11 +8,13 @@ import thunk from "redux-thunk";
 import userReducer, {UserState as _UserState} from "./reducers/user.reducer";
 import loginReducer, {LoginState as _LoginState} from "./reducers/login.reducer";
 import sidemenuReducer, {SidemenuState as _SidemenuState} from "./reducers/sidemenu.reducer";
+import profileReducer, {ProfileState as _ProfileState} from "./reducers/profile.reducer";
 
 const rootReducer = combineReducers({
 	user: userReducer,
 	login: loginReducer,
-	sidemenu: sidemenuReducer
+	sidemenu: sidemenuReducer,
+	profile: profileReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
@@ -32,7 +34,8 @@ export type LoginState = _LoginState;
 export {
 	UserActionTypes,
 	login as userLoginAction,
-	logout as userLogoutAction
+	logout as userLogoutAction,
+	setProfile as userSetProfileAction
 } from "./reducers/user.reducer";
 export type UserState = _UserState;
 
@@ -42,6 +45,13 @@ export {
 	close as sidemenuCloseAction
 } from "./reducers/sidemenu.reducer";
 export type SidemenuState = _SidemenuState;
+
+export {
+	ProfileActionTypes,
+	setEditing as profileSetEditingAction,
+	setData as profileSetDataAction
+} from "./reducers/profile.reducer";
+export type ProfileState = _ProfileState;
 
 /* Store */
 

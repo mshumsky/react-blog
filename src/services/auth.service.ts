@@ -9,6 +9,8 @@ import {stringifyMatch} from "../utils";
 
 export const isLogged = (): boolean => Boolean(store.getState().user.logged);
 
+/* storeAuthData */
+
 export const storeAuthData = (data: UserData): void => localStorage.setItem("authData", JSON.stringify(data));
 export const clearAuthData = (): void => localStorage.removeItem("authData");
 export const restoreAuthData = (): validateRegisterCodeResponse | null => {
@@ -17,12 +19,37 @@ export const restoreAuthData = (): validateRegisterCodeResponse | null => {
 	return JSON.parse(data);
 };
 
+/* storeOtpRequest */
+
 export const storeOtpRequest = (data: RequestRegisterCodeResponse): void => localStorage.setItem("pendingOTPRequest", JSON.stringify(data));
 export const clearOtpRequest = (): void => localStorage.removeItem("pendingOTPRequest");
 export const restoreOtpRequest = (): RequestRegisterCodeResponse | null => {
 	const data = localStorage.getItem("pendingOTPRequest");
 	if (data === null) return null;
 	return JSON.parse(data);
+};
+
+/* getAuthorizationToken */
+
+export const getAuthorizationToken = (): string | null => {
+	if (isLogged())
+		return (store.getState().user.data as UserData).token;
+	const appData = restoreAuthData();
+	return appData && appData.token;
+};
+
+/* getAuthorizationHeader */
+
+interface GetAuthorizationHeaderReturn {
+	Authorization: string;
+}
+
+type GetAuthorizationHeaderReturnType = GetAuthorizationHeaderReturn | null;
+
+export const getAuthorizationHeader = (): GetAuthorizationHeaderReturnType => {
+	const token = getAuthorizationToken();
+	if (!token) return null;
+	return {Authorization: `Token ${token}`};
 };
 
 /* Hooks */
