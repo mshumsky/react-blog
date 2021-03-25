@@ -3,4 +3,19 @@
 	font-size: 36px;
 	line-height: 26px;
 	font-weight: 500;
+	margin-bottom: 35px;
+}
+
+.MuiButtonBase-root {
+	&.MuiButton-root {
+		border-radius: 15px;
+		color: white;
+	}
+}
+
+.MuiButton-label {
+	font-family: $primary-font;
+	font-size: 16px;
+	line-height: 19px;
+	text-transform: initial;
 }

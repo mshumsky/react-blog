@@ -1,11 +1,48 @@
 .Profile-Container {
 	display: flex;
+	flex-wrap: wrap;
+	column-gap: 64px;
+	row-gap: 20px;
 }
 
 .Profile-Main {
 	flex-basis: 290px;
 }
 
-.Profile-Info {
+.Profile-Secondary {
 	flex-grow: 1;
+}
+
+.Profile-AvatarBox {
+	padding: 20px;
+	height: 360px;
+	box-sizing: border-box;
+	background: #FFFFFF;
+	box-shadow: $contentbox-shadow;
+	border-radius: 15px;
+	&__ImageBox {
+		width: 250px;
+		height: 250px;
+		border-radius: inherit;
+		overflow: hidden;
+		margin: 0 0 20px 0;
+	}
+	&__Image {
+		width: inherit;
+		height: inherit;
+		object-fit: cover;
+	}
+	&__UploadButton {
+		height: 50px;
+		width: 100%;
+		background: $button-blue-background;
+	}
+}
+
+.Profile-InfoBox {
+	padding: 20px;
+	box-sizing: border-box;
+	border-radius: 15px;
+	background: #FFFFFF;
+	box-shadow: $contentbox-shadow;
 }
