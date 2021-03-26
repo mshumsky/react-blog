@@ -48,7 +48,7 @@ export type SidemenuState = _SidemenuState;
 
 export {
 	ProfileActionTypes,
-	setEditing as profileSetEditingAction,
+	setupUpdateTimer as profileSetupUpdateTimer,
 	setData as profileSetDataAction,
 	setChangedData as profileSetChangedDataAction
 } from "./reducers/profile.reducer";

@@ -16,5 +16,6 @@ type UpdateProfileResponse = UserProfile;
 export const updateProfile = (id: number, data: Partial<UserProfile>): Promise<AxiosResponse<UpdateProfileResponse>> => makeRequest({
 	url: `v1/accounts/${id}/`,
 	method: "put",
-	headers: getAuthorizationHeader()
+	headers: getAuthorizationHeader(),
+	data
 });
