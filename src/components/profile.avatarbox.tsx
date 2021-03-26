@@ -9,7 +9,6 @@ const ProfileAvatarBox: React.FC = () => {
 	const store = useTypedSelector(store => store.profile.data);
 	const avatar = "avatar" in store ? store.avatar : {} as ApiImage;
 
-
 	return (
 		<div className="Profile-AvatarBox">
 			<div className="Profile-AvatarBox__ImageBox">

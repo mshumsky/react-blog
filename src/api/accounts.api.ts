@@ -10,3 +10,11 @@ export const requestMyProfile = (token?: string): Promise<AxiosResponse<RequestM
 	method: "get",
 	headers: getAuthorizationHeader() || {Authorization: `Token ${token}`}
 });
+
+type UpdateProfileResponse = UserProfile;
+
+export const updateProfile = (id: number, data: Partial<UserProfile>): Promise<AxiosResponse<UpdateProfileResponse>> => makeRequest({
+	url: `v1/accounts/${id}/`,
+	method: "put",
+	headers: getAuthorizationHeader()
+});
