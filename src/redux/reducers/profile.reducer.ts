@@ -85,6 +85,7 @@ export const setupUpdateTimer = () =>
 			const profileId = (state.data as UserProfile).id;
 			const changedData = state.changedData;
 			try {
+				console.log(changedData);
 				const resp = await updateProfile(profileId, changedData);
 				console.log(resp.data);
 			} catch (err) {

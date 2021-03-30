@@ -7,6 +7,10 @@
 @import "theme/components/sidemenu.scss";
 @import "theme/components/profile.scss";
 
+html, body {
+	min-width: 375px;
+}
+
 html, body, #root, .app {
 	height: 100%;
 }

@@ -19,3 +19,24 @@
 	line-height: 19px;
 	text-transform: initial;
 }
+
+.MuiInputBase-root.MuiFilledInput-root {
+	font-family: $secondary-font;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 16px;
+	line-height: 20px;
+	background-color: #DDE1E8;
+}
+
+.MuiFormLabel-root.MuiInputLabel-filled {
+	font-family: $secondary-font;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+}
+
+.MuiTextField-root {
+	border-radius: 15px;
+	overflow: hidden;
+}

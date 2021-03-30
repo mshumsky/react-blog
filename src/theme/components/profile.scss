@@ -49,5 +49,27 @@
 	&__FieldBox {
 		display: flex;
 		flex-direction: column;
+		font-family: $primary-font;
+		font-style: normal;
+		font-weight: 600;
+		font-size: 16px;
+		line-height: 20px;
+		color: #5F5F6E;
+		cursor: default;
+		p {
+			margin: 13px 0 23px 0;
+			font-family: $secondary-font;
+			font-style: normal;
+			font-weight: normal;
+			font-size: 16px;
+			line-height: 20px;
+			display: flex;
+			align-items: center;
+			cursor: pointer;
+		}
+		.MuiFormControl-root {
+			// margin: 10px 0 20px 0;
+
+		}
 	}
 }

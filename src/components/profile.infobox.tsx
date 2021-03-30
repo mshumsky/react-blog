@@ -1,22 +1,22 @@
-import React, {useRef, useEffect} from "react";
-
-import {Formik} from "formik";
-import * as yup from "yup";
-
 import {TextField, TextFieldProps} from "@material-ui/core";
-
+import {Formik} from "formik";
+import React, {useEffect, useRef} from "react";
+import {useDispatch} from "react-redux";
+import * as yup from "yup";
+import {profileSetChangedDataAction, useTypedSelector} from "../redux";
+import {UserProfile} from "../redux/reducers/user.reducer";
+import {invalidReplace} from "../utils";
 import SwapField from "./swapfield";
 
-import {invalidReplace} from "../utils";
 
-import {useDispatch} from "react-redux";
-import {useTypedSelector, profileSetChangedDataAction} from "../redux";
-import {UserProfile} from "../redux/reducers/user.reducer";
+
+
+
 
 
 const validSchema = yup.object().shape({
 	username: yup.string().required("Это поле не может быть пустым :("),
-	first_name: yup.string(),
+	first_name: yup.string().max(16, "Не более 16 символов"),
 	last_name: yup.string(),
 	about: yup.string(),
 	city: yup.string(),
@@ -37,36 +37,39 @@ const FieldValue: React.FC<{onClick?: any;}> = ({children, onClick}) =>
 interface FieldInputProps {
 	triggerActive?: any;
 	submitForm: any;
+	values?: any;
 }
 
 type FieldInputPropsType = TextFieldProps & FieldInputProps;
 
 const FieldInput: React.FC<FieldInputPropsType> = (props) => {
 	const dispatch = useDispatch();
-
 	const ref = useRef<HTMLInputElement>(null);
 
 	useEffect(() => {
 		ref.current && ref.current.focus();
 	}, []);
 
+	const isValid = (data?: any) => validSchema.isValid(!data ? props.values : {...props.values, ...data});
+
 	const onChange = (e: any): any => {
 		const deliverToState = async () => {
 			try {
 				const data = {[e.currentTarget.name]: e.currentTarget.value};
-				const valid = await validSchema.isValid(data);
+				const valid = await isValid(data);
 				valid && dispatch(profileSetChangedDataAction(data));
 			} catch (err) {
 				console.error("Failed in delivering profile changes to state.");
 			}
-		}
+		};
 		deliverToState();
-	}
+	};
 
 	const textfieldProps = {...props};
 	delete textfieldProps.triggerActive;
 	delete textfieldProps.onClick;
 	delete textfieldProps.submitForm;
+	delete textfieldProps.values;
 
 	textfieldProps.inputRef = ref;
 	props.triggerActive && (() => {
@@ -80,28 +83,11 @@ const FieldInput: React.FC<FieldInputPropsType> = (props) => {
 
 const ProfileInfoBox: React.FC = () => {
 	const store = useTypedSelector(store => store.profile.data as UserProfile);
-	/*
-		id(pin):2
-		id_str(pin):"2"
-		username(pin):"862953c3-2bf3-42a1-8b23-e30a3b8c29d0"
-		first_name(pin):""
-		last_name(pin):""
-		status_type(pin):1
-		status_type_str(pin):"1"
-		account_url(pin):"http://ctoiia.pythonanywhere.com/api/v1/accounts/2/"
-		background_color(pin):"#FFFFFF"
-		city(pin):""
-		phone_number(pin):"+79213668397"
-		workplace(pin):""
-		work_experience(pin):""
-		about(pin):""
-		set_avatar_url(pin):"http://ctoiia.pythonanywhere.com/api/v1/accounts/2/avatar/"
-	*/
 
 	const onSubmit = (values: any) => console.log(values);
 
-	const packComp = (comp: any) =>
-		(triggerActive: any) => React.cloneElement(comp, {...comp.props, triggerActive});
+	const packComp = (comp: any, values?: any) =>
+		(triggerActive: any) => React.cloneElement(comp, {...comp.props, triggerActive, values});
 
 	if (Object.keys(store).length <= 0) return null;
 
@@ -130,14 +116,14 @@ const ProfileInfoBox: React.FC = () => {
 												error={Boolean(errors.username)}
 												label={errors.username}
 												submitForm={submitForm}
-											/>)}
+											/>, values)}
 										/>
 									</FormField>
 									<FormField>
 										Настоящее имя
 										<SwapField
 											inactiveComp={<FieldValue>{invalidReplace(store.first_name, "Не указано")}</FieldValue>}
-											activeComp={packComp(<FieldInput 
+											activeComp={packComp(<FieldInput
 												type="text"
 												name="first_name"
 												onChange={handleChange}
@@ -146,14 +132,14 @@ const ProfileInfoBox: React.FC = () => {
 												error={Boolean(errors.first_name)}
 												label={errors.first_name}
 												submitForm={submitForm}
-											/>)}
+											/>, values)}
 										/>
 									</FormField>
 									<FormField>
 										Фамилия
 										<SwapField
 											inactiveComp={<FieldValue>{invalidReplace(store.last_name, "Не указана")}</FieldValue>}
-											activeComp={packComp(<FieldInput 
+											activeComp={packComp(<FieldInput
 												type="text"
 												name="last_name"
 												onChange={handleChange}
@@ -162,14 +148,14 @@ const ProfileInfoBox: React.FC = () => {
 												error={Boolean(errors.last_name)}
 												label={errors.last_name}
 												submitForm={submitForm}
-											/>)}
+											/>, values)}
 										/>
 									</FormField>
 									<FormField>
 										Родной город
 										<SwapField
 											inactiveComp={<FieldValue>{invalidReplace(store.city, "Не указан")}</FieldValue>}
-											activeComp={packComp(<FieldInput 
+											activeComp={packComp(<FieldInput
 												type="text"
 												name="city"
 												onChange={handleChange}
@@ -178,14 +164,14 @@ const ProfileInfoBox: React.FC = () => {
 												error={Boolean(errors.city)}
 												label={errors.city}
 												submitForm={submitForm}
-											/>)}
+											/>, values)}
 										/>
 									</FormField>
 									<FormField>
 										Место работы
 										<SwapField
 											inactiveComp={<FieldValue>{invalidReplace(store.workplace, "Не указано")}</FieldValue>}
-											activeComp={packComp(<FieldInput 
+											activeComp={packComp(<FieldInput
 												type="text"
 												name="workplace"
 												onChange={handleChange}
@@ -194,14 +180,14 @@ const ProfileInfoBox: React.FC = () => {
 												error={Boolean(errors.workplace)}
 												label={errors.workplace}
 												submitForm={submitForm}
-											/>)}
+											/>, values)}
 										/>
 									</FormField>
 									<FormField>
 										О себе
 										<SwapField
 											inactiveComp={<FieldValue>{invalidReplace(store.about, "Нет информации")}</FieldValue>}
-											activeComp={packComp(<FieldInput 
+											activeComp={packComp(<FieldInput
 												type="text"
 												name="about"
 												onChange={handleChange}
@@ -210,7 +196,7 @@ const ProfileInfoBox: React.FC = () => {
 												error={Boolean(errors.about)}
 												label={errors.about}
 												submitForm={submitForm}
-											/>)}
+											/>, values)}
 										/>
 									</FormField>
 								</form>
