@@ -8,6 +8,7 @@ import {store} from "./redux";
 import "./styles.scss";
 
 import Profile from "./components/profile";
+import Chat from "./components/chat";
 
 function App() {
 	const globalComp = [
@@ -23,9 +24,7 @@ function App() {
 					<Route path="/article">
 						<p>Article</p>
 					</Route>
-					<Route path="/chat">
-						<p>Chat</p>
-					</Route>
+					<Route path="/chat" component={Chat} />
 					<Route path="/notification">
 						<p>Notification</p>
 					</Route>

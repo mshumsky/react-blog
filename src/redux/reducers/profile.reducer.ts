@@ -1,8 +1,8 @@
 import {Dispatch} from "redux";
-import {UserProfile, UserProfileType} from "./user.reducer";
-import {store} from "../index";
-import {compareObjects, isValid} from "../../utils";
 import {updateProfile} from "../../api";
+import {compareObjects} from "../../utils";
+import {store} from "../index";
+import {ApiImageType, UserProfile, UserProfileType} from "./user.reducer";
 
 export interface ProfileState {
 	updateTimer: number;
@@ -14,7 +14,8 @@ export enum ProfileActionTypes {
 	clearUpdateTimer = "PROFILE_CLEARUPDATETIMER",
 	setupUpdateTimer = "PROFILE_SETUPUPDATETIMER",
 	setData = "PROFILE_SETDATA",
-	setChangedData = "PROFILE_SETCHANGEDDATA"
+	setChangedData = "PROFILE_SETCHANGEDDATA",
+	uploadAvatar = "PROFILE_UPLOADAVATAR"
 }
 
 export interface ProfileClearUpdateTimerAction {
@@ -23,7 +24,7 @@ export interface ProfileClearUpdateTimerAction {
 
 export interface ProfileSetupUpdateTimerAction {
 	type: ProfileActionTypes.setupUpdateTimer;
-	payload: number
+	payload: number;
 }
 
 export interface ProfileSetDataAction {
@@ -36,7 +37,17 @@ export interface ProfileSetChangedDataAction {
 	payload: Partial<UserProfile>;
 }
 
-export type ProfileAction = ProfileClearUpdateTimerAction | ProfileSetupUpdateTimerAction | ProfileSetDataAction | ProfileSetChangedDataAction;
+export interface ProfileSetAvatarAction {
+	type: ProfileActionTypes.uploadAvatar,
+	payload: ApiImageType;
+}
+
+export type ProfileAction =
+	ProfileSetAvatarAction |
+	ProfileClearUpdateTimerAction |
+	ProfileSetupUpdateTimerAction |
+	ProfileSetDataAction |
+	ProfileSetChangedDataAction;
 
 /* Reducer */
 
@@ -56,7 +67,7 @@ export default (state = initState, action: ProfileAction): ProfileState => {
 			};
 		case ProfileActionTypes.setupUpdateTimer:
 			return {
-				...state, 
+				...state,
 				updateTimer: action.payload
 			};
 		case ProfileActionTypes.setData:
@@ -77,7 +88,7 @@ export default (state = initState, action: ProfileAction): ProfileState => {
 
 /* Action creator */
 
-export const setupUpdateTimer = () => 
+export const setupUpdateTimer = () =>
 	async (dispatch: Dispatch<ProfileSetupUpdateTimerAction | ProfileClearUpdateTimerAction>) => {
 		dispatch({type: ProfileActionTypes.clearUpdateTimer});
 		const timerId = setTimeout(async () => {
@@ -96,7 +107,7 @@ export const setupUpdateTimer = () =>
 		dispatch({type: ProfileActionTypes.setupUpdateTimer, payload: +timerId});
 	};
 
-export const setData = (data: UserProfile) => 
+export const setData = (data: UserProfile) =>
 	async (dispatch: Dispatch<ProfileSetDataAction>) => {
 		dispatch({type: ProfileActionTypes.setData, payload: data});
 	};
@@ -107,4 +118,15 @@ export const setChangedData = (data: Partial<UserProfile>) =>
 		const changedData = compareObjects(currentData, data);
 		dispatch({type: ProfileActionTypes.setChangedData, payload: changedData});
 		dispatch(setupUpdateTimer());
+	};
+
+export const uploadAvatar = (image: File) =>
+	async (dispatch: Dispatch<ProfileSetAvatarAction>) => {
+		const profile = store.getState().profile.data as UserProfile;
+		const profileId = profile.id;
+		try {
+			// const resp = await updateProfile(profileId, {avatar: image});
+		} catch (err) {
+			console.error("Failed in uploading avatar.");
+		}
 	};

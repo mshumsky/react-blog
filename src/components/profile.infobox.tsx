@@ -8,12 +8,6 @@ import {UserProfile} from "../redux/reducers/user.reducer";
 import {invalidReplace} from "../utils";
 import SwapField from "./swapfield";
 
-
-
-
-
-
-
 const validSchema = yup.object().shape({
 	username: yup.string().required("Это поле не может быть пустым :("),
 	first_name: yup.string().max(16, "Не более 16 символов"),

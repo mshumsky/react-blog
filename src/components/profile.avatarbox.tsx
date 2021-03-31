@@ -18,7 +18,6 @@ const ProfileAvatarBox: React.FC = () => {
 
 	const onChange: React.ChangeEventHandler<HTMLInputElement> = e => {
 		
-
 		const file: File = e.currentTarget.files![0];
 		const passed = fileMatches(file, {
 			maxSize: 10, 

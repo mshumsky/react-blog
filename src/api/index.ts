@@ -24,7 +24,17 @@ const makeRequest = (arg: IMakeRequestArg) => {
 
 export default makeRequest;
 
+/* Commin API interfaces */
+
+export interface ApiPaginate<T> {
+	count: number,
+	next: any,
+	previous: any,
+	results: Array<T>
+}
+
 /* Re-export from modules */
 
 export * from "./auth.api";
 export * from "./accounts.api";
+export * from "./chats.api";
