@@ -56,3 +56,55 @@ export const compareObjects = (src: any, dst: any) => {
   }
   return changes;
 };
+
+export interface FileMatchesParams {
+	maxSize?: number,
+	minSize?: number,
+	extension?: RegExp,
+	onFail: (filter: string) => any
+}
+
+export const bytesToMb = (bytes: number | string): number => +bytes / (1024*1024)
+
+export const fileMatches = (file: File, params: FileMatchesParams): boolean => {
+	const filters = {
+		...params.maxSize && {maxSize: false},
+		...params.minSize && {minSize: false},
+		...params.extension && {extension: false}
+	};
+
+	Object.keys(filters).forEach((key) => {
+		let passed: boolean;
+
+		switch (key) {
+			case "maxSize": {
+				const sizeInMb = bytesToMb(file.size);
+				passed = sizeInMb <= params.maxSize!;
+				break;
+			}
+			case "minSize": {
+				const sizeInMb = bytesToMb(file.size);
+				passed = sizeInMb >= params.minSize!;
+				break;
+			}
+			case "extension":
+			case "extensions": {
+				const lastIndex = file.name.lastIndexOf(".");
+				const extension = file.name.substr(lastIndex);
+				passed = params.extension!.test(extension);
+				break;
+			}
+			default: passed = false;
+		}
+
+		passed === false && params.onFail && params.onFail(key);
+
+		filters[key as keyof typeof filters] = passed;
+	});
+
+	for (let key in filters)
+		if (filters[key as keyof typeof filters] === false)
+			return false;
+			
+	return true;
+};
