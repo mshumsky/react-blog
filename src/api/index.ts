@@ -4,7 +4,7 @@ const instance: AxiosInstance = axios.create({
 	baseURL: process.env.REACT_APP_API_URI
 });
 
-export interface IMakeRequestArg {
+export interface MakeRequestArgs {
 	url: string;
 	method: Method;
 	params?: any;
@@ -12,7 +12,7 @@ export interface IMakeRequestArg {
 	headers?: any;
 }
 
-const makeRequest = (arg: IMakeRequestArg) => {
+const makeRequest = (arg: MakeRequestArgs) => {
 	return instance(
 		arg.url, {
 		method: arg.method,
@@ -23,6 +23,15 @@ const makeRequest = (arg: IMakeRequestArg) => {
 };
 
 export default makeRequest;
+
+/* WebSockets */
+
+export interface SocketArgs {
+	url: string,
+	protocols?: string | string[]
+}
+
+export const socket = (args: SocketArgs): WebSocket => new WebSocket(process.env.REACT_APP_WS_URI + args.url, args.protocols);
 
 /* Commin API interfaces */
 

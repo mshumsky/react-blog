@@ -10,13 +10,15 @@ import loginReducer, {LoginState as _LoginState} from "./reducers/login.reducer"
 import sidemenuReducer, {SidemenuState as _SidemenuState} from "./reducers/sidemenu.reducer";
 import profileReducer, {ProfileState as _ProfileState} from "./reducers/profile.reducer";
 import chatReducer, {ChatState as _ChatState} from "./reducers/chat.reducer";
+import chatDialogReducer, {ChatDialogState as _ChatDialogState} from "./reducers/chatdialog.reducer";
 
 const rootReducer = combineReducers({
 	user: userReducer,
 	login: loginReducer,
 	sidemenu: sidemenuReducer,
 	profile: profileReducer,
-	chat: chatReducer
+	chat: chatReducer,
+	chatdialog: chatDialogReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
@@ -61,6 +63,12 @@ export {
 	fetchAll as chatFetchAllAction
 } from "./reducers/chat.reducer"
 export type ChatState = _ChatState;
+
+export {
+	ChatDialogActionTypes,
+	addMessages as chatDialogAddMessagesAction
+} from "./reducers/chatdialog.reducer";
+export type ChatDialogState = _ChatDialogState;
 
 /* Store */
 
