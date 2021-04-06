@@ -19,7 +19,7 @@ const SidemenuItem: React.FC<SidemenuItemProps> = (props) => {
 	liProps.className = classes.join(" ");
 
 	liProps.onClick = e => {
-		!match && props.path &&
+		/* !match && */ props.path &&
 			history.push(props.path);
 		props.onClick && (props.onClick(e));
 	};
